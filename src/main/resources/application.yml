@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://cinema-db:5432/postgres
+    url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: password
   jpa:
@@ -15,10 +15,10 @@ spring:
       max-request-size: 1MB
 
 client:
-  id:
-  secret:
-  refreshToken:
-  tokenUrl:
+  id: 243776522551-8q8oh8nsfofivqvm1op9ps3q1rlvb01n.apps.googleusercontent.com
+  secret: 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
+  refreshToken: 1//04gpS5U4McecDCgYIARAAGAQSNwF-L9Ir9rLHc7BF-sB3HJdrRUOPJWP4MiuWeePJD6I3aQlHZZhfH3xSMc-9pnGFgorEcSaQwZw
+  tokenUrl: https://www.googleapis.com/oauth2/v4/token
 
 email:
   username: automatycznywysylacz@gmail.com

@@ -64,7 +64,8 @@ public class AppointmentService {
         Appointment newAppointment;
         Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
         if (appointment.isPresent()) {
-            String recipient = patientService.getPatientEmail(appointment.get().getPatientId());
+            String recipient =
+                    patientService.getPatientEmail(patientId != null ? patientId : appointment.get().getPatientId());
             String subject = "Akutalizacja statusu wizyty";
             String body = patientId == null
                     ? "Wizyta o identyfikatorze " + appointmentId + " została odwołana."
