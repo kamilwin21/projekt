@@ -81,7 +81,7 @@ public class AppointmentService {
             mailer.getMailer().send(mailer.getMessage(recipient, subject, body));
             return appointmentRepository.save(newAppointment);
         } else {
-            throw new AppointmentNotFoundException("Appointment with id:" + appointmentId + "was not found");
+            throw new AppointmentNotFoundException("Appointment with id: " + appointmentId + " was not found");
         }
     }
 
