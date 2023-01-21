@@ -1,12 +1,30 @@
 package pl.kul.projekt.patient;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/patient")
 @RequiredArgsConstructor
 public class PatientController {
+
     private final PatientService patientService;
+
+    @GetMapping
+    public Optional<Patient> get(@RequestParam("id") UUID id) {
+        return patientService.get(id);
+    }
+
+    @PostMapping
+    public Patient add(@RequestBody Patient patient) {
+        return patientService.add(patient);
+    }
+
+    @DeleteMapping
+    public void delete(@RequestBody Patient patient) {
+        patientService.delete(patient);
+    }
 }
