@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.kul.projekt.appointment.exceptions.AppointmentNotFoundException;
+import pl.kul.projekt.patient.exceptions.PatientNotFoundException;
 
 import java.io.IOException;
 import java.util.List;
@@ -48,12 +49,14 @@ public class AppointmentController {
 
     @PutMapping("/reserve")
     public Appointment reserve(@RequestParam("appointmentId") UUID appointmentId,
-                               @RequestParam("patientId") UUID patientId) throws AppointmentNotFoundException {
+                               @RequestParam("patientId") UUID patientId)
+            throws AppointmentNotFoundException, PatientNotFoundException {
         return appointmentService.reserveAppointment(appointmentId, patientId);
     }
 
     @PutMapping("/cancel")
-    public Appointment cancel(@RequestParam("appointmentId") UUID appointmentId) throws AppointmentNotFoundException {
+    public Appointment cancel(@RequestParam("appointmentId") UUID appointmentId)
+            throws AppointmentNotFoundException, PatientNotFoundException {
         return appointmentService.cancelAppointment(appointmentId);
     }
 

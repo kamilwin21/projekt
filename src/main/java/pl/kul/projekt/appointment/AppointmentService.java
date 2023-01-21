@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pl.kul.projekt.appointment.exceptions.AppointmentNotFoundException;
 import pl.kul.projekt.appointment.file.Parser;
+import pl.kul.projekt.appointment.mailer.Mailer;
+import pl.kul.projekt.patient.PatientService;
+import pl.kul.projekt.patient.exceptions.PatientNotFoundException;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -18,7 +21,9 @@ import java.util.UUID;
 public class AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
+    private final PatientService patientService;
     private final Parser parser;
+    private final Mailer mailer;
 
     public List<Appointment> getAllAvailableByDoctorId(UUID id) {
         return appointmentRepository.getAllByDoctorIdAndPatientIdIsNull(id);
@@ -40,11 +45,13 @@ public class AppointmentService {
         return appointmentRepository.save(appointment);
     }
 
-    public Appointment reserveAppointment(UUID appointmentId, UUID patientId) throws AppointmentNotFoundException {
+    public Appointment reserveAppointment(UUID appointmentId, UUID patientId)
+            throws AppointmentNotFoundException, PatientNotFoundException {
         return updateAppointment(appointmentId, patientId);
     }
 
-    public Appointment cancelAppointment(UUID appointmentId) throws AppointmentNotFoundException {
+    public Appointment cancelAppointment(UUID appointmentId)
+            throws AppointmentNotFoundException, PatientNotFoundException {
         return updateAppointment(appointmentId, null);
     }
 
@@ -52,10 +59,16 @@ public class AppointmentService {
         return parser.parse(new String(file.getBytes(), StandardCharsets.UTF_8));
     }
 
-    private Appointment updateAppointment(UUID appointmentId, UUID patientId) throws AppointmentNotFoundException {
+    private Appointment updateAppointment(UUID appointmentId, UUID patientId)
+            throws AppointmentNotFoundException, PatientNotFoundException {
         Appointment newAppointment;
         Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
         if (appointment.isPresent()) {
+            String recipient = patientService.getPatientEmail(appointment.get().getPatientId());
+            String subject = "Akutalizacja statusu wizyty";
+            String body = patientId == null
+                    ? "Wizyta o identyfikatorze " + appointmentId + " została odwołana."
+                    : "Potwierdzenie nowej wizyty o identyfikatorze " + appointmentId;
             newAppointment = new Appointment(
                     appointment.get().getId(),
                     appointment.get().getDoctorId(),
@@ -63,6 +76,8 @@ public class AppointmentService {
                     appointment.get().getDate(),
                     appointment.get().getTime()
             );
+
+            mailer.getMailer().send(mailer.getMessage(recipient, subject, body));
             return appointmentRepository.save(newAppointment);
         } else {
             throw new AppointmentNotFoundException("Appointment with id:" + appointmentId + "was not found");
