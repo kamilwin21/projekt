@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class Appointment {
 
     @Id
@@ -32,4 +34,9 @@ public class Appointment {
     private LocalDate date;
     private LocalTime time;
 
+    public Appointment(UUID doctorId, LocalDate date, LocalTime time) {
+        this.doctorId = doctorId;
+        this.date = date;
+        this.time = time;
+    }
 }
