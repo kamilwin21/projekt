@@ -8,7 +8,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class ParserTest {
 
@@ -37,7 +37,9 @@ class ParserTest {
 
         List<Appointment> results = parser.parse(content);
 
-        assertEquals(appointments, results);
+        assertThat(appointments)
+                .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+                .isEqualTo(results);
     }
 
 }
