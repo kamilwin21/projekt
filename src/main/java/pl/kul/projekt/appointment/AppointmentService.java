@@ -56,7 +56,7 @@ public class AppointmentService {
     }
 
     public List<Appointment> addFromFile(MultipartFile file) throws IOException {
-        return parser.parse(new String(file.getBytes(), StandardCharsets.UTF_8));
+        return appointmentRepository.saveAll(parser.parse(new String(file.getBytes(), StandardCharsets.UTF_8)));
     }
 
     private Appointment updateAppointment(UUID appointmentId, UUID patientId)

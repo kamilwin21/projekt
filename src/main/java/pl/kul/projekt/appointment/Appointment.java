@@ -35,6 +35,7 @@ public class Appointment {
     private LocalTime time;
 
     public Appointment(UUID doctorId, LocalDate date, LocalTime time) {
+        id = UUID.randomUUID();
         this.doctorId = doctorId;
         this.date = date;
         this.time = time;
