@@ -2,7 +2,6 @@ package pl.kul.projekt.prescription;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -22,9 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(PrescriptionController.class)
 class PrescriptionControllerTest {
-
-    @Mock
-    private PrescriptionRepository prescriptionRepository;
 
     @Autowired
     private MockMvc mockMvc;
@@ -78,18 +74,5 @@ class PrescriptionControllerTest {
                 .andExpect(jsonPath("$.[1].date").value(date.toString()));
 
     }
-
-//    @Test
-//    void shouldAddPrescription(){
-//        Prescription prescription = new Prescription(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), "Lek 1", LocalDate.now());
-//
-//        when(prescriptionRepository.save(any())).thenReturn(prescription);
-//
-//        Prescription result = prescriptionService.add(prescription);
-//
-//        assertEquals(prescription, result);
-//
-//    }
-
 
 }

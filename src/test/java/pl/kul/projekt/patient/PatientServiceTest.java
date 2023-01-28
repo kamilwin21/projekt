@@ -19,17 +19,20 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class PatientServiceTest {
+
     @Mock
     private PatientRepository patientRepository;
+
     @Mock
     private Validator validator;
+
     @InjectMocks
     private PatientService patientService;
 
     @Test
-    void shouldSavePatient() {
+    void shouldThrowInvalidEmailException() {
         UUID id = UUID.randomUUID();
-        Patient patient = new Patient(id, "Name", "Surname", "patient@gmail.com");
+        Patient patient = new Patient(id, "Name", "Surname", "patient");
 
         InvalidEmailException result = assertThrows(InvalidEmailException.class, () -> patientService.add(patient));
 
@@ -50,7 +53,9 @@ class PatientServiceTest {
     @Test
     void shouldThrowPatientNotFoundException() {
         UUID id = UUID.randomUUID();
+
         PatientNotFoundException result = assertThrows(PatientNotFoundException.class, () -> patientService.getPatientEmail(id));
+
         assertEquals("Patient not found", result.getMessage());
     }
 }

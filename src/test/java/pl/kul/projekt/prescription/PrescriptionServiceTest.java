@@ -26,10 +26,11 @@ class PrescriptionServiceTest {
     @Test
     void shouldSavePrescription() {
         UUID id = UUID.randomUUID();
-        UUID id2 = UUID.randomUUID();
-        UUID id3 = UUID.randomUUID();
-        UUID id4 = UUID.randomUUID();
-        Prescription prescription = new Prescription(id, id2, id3, id4, "Lek 1", LocalDate.now());
+        UUID doctorId = UUID.randomUUID();
+        UUID appointmentId = UUID.randomUUID();
+        UUID patientId = UUID.randomUUID();
+
+        Prescription prescription = new Prescription(id, doctorId, appointmentId, patientId, "Lek 1", LocalDate.now());
 
         when(prescriptionRepository.save(any())).thenReturn(prescription);
         Prescription result = prescriptionService.add(prescription);
@@ -39,24 +40,22 @@ class PrescriptionServiceTest {
 
     @Test
     void shouldReturnPrescriptionByPatientId() {
-        UUID id = UUID.randomUUID();
+        UUID id1 = UUID.randomUUID();
         UUID id2 = UUID.randomUUID();
-        UUID id3 = UUID.randomUUID();
-        UUID id4 = UUID.randomUUID();
-        UUID id5 = UUID.randomUUID();
-        UUID id6 = UUID.randomUUID();
-        UUID id7 = UUID.randomUUID();
+        UUID doctorId1 = UUID.randomUUID();
+        UUID doctorId2 = UUID.randomUUID();
+        UUID appointmentId1 = UUID.randomUUID();
+        UUID appointmentId2 = UUID.randomUUID();
+        UUID patientId = UUID.randomUUID();
 
-        Prescription prescription = new Prescription(id, id2, id3, id4, "Lek 1", LocalDate.now());
-        Prescription prescription1 = new Prescription(id5, id6, id7, id4, "Lek 1", LocalDate.now());
+        Prescription prescription = new Prescription(id1, doctorId1, appointmentId1, patientId, "Lek 1", LocalDate.now());
+        Prescription prescription1 = new Prescription(id2, doctorId2, appointmentId2, patientId, "Lek 2", LocalDate.now());
 
-        when(prescriptionRepository.getAllPrescriptionByPatientId(id4))
+        when(prescriptionRepository.getAllPrescriptionByPatientId(patientId))
                 .thenReturn(List.of(prescription, prescription1));
-        List<Prescription> result = prescriptionService.getAllPrescriptionByPatientId(id4);
+        List<Prescription> result = prescriptionService.getAllPrescriptionByPatientId(patientId);
 
         assertEquals(List.of(prescription, prescription1), result);
-
-
     }
 
 }
