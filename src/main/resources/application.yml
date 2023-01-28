@@ -1,0 +1,20 @@
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 1MB
+      max-request-size: 1MB
+
+client:
+  id: 243776522551-8q8oh8nsfofivqvm1op9ps3q1rlvb01n.apps.googleusercontent.com
+  secret: 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
+  refreshToken: 1//04gpS5U4McecDCgYIARAAGAQSNwF-L9Ir9rLHc7BF-sB3HJdrRUOPJWP4MiuWeePJD6I3aQlHZZhfH3xSMc-9pnGFgorEcSaQwZw
+  tokenUrl: https://www.googleapis.com/oauth2/v4/token
+
+email:
+  username: automatycznywysylacz@gmail.com
